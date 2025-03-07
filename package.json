@@ -1,5 +1,5 @@
 {
-  "name": "eojs-project",
+  "name": "eojs",
   "version": "0.0.1",
   "description": "Express Opinionated JavaScript Framework",
   "main": "index.js",
