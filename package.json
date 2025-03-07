@@ -1,5 +1,5 @@
 {
-  "name": "eojs",
+  "name": "eojs-lab",
   "version": "0.0.1",
   "description": "Express Opinionated JavaScript Framework",
   "main": "index.js",
@@ -50,6 +50,6 @@
     "winston": "^3.10.0"
   },
   "engines": {
-    "node": ">=14.16.0"
+    "node": ">=20.14.0"
   }
 }
