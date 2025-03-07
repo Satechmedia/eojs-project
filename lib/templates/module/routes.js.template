@@ -1,0 +1,142 @@
+import express from 'express';
+import {{MODULE_NAME}}Controller from '../controllers/{{MODULE_NAME}}.controller.js';
+import { authenticate } from '../middleware/auth.js';
+import rbac from '../config/rbac.js';
+
+const router = express.Router();
+
+/**
+{{#INCLUDE_SWAGGER}}
+ * @swagger
+ * /api/{{MODULE_NAME}}:
+ *   get:
+ *     summary: Get all {{MODULE_NAME}}s
+ *     tags: [{{MODULE_NAME_CAPITALIZED}}]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of {{MODULE_NAME}}s
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/{{MODULE_NAME_CAPITALIZED}}'
+{{/INCLUDE_SWAGGER}}
+ */
+router.get('/', authenticate, rbac.checkPermission('read', '{{MODULE_NAME}}'), {{MODULE_NAME}}Controller.getAll);
+
+/**
+{{#INCLUDE_SWAGGER}}
+ * @swagger
+ * /api/{{MODULE_NAME}}/{id}:
+ *   get:
+ *     summary: Get {{MODULE_NAME}} by ID
+ *     tags: [{{MODULE_NAME_CAPITALIZED}}]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: {{MODULE_NAME_CAPITALIZED}} details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/{{MODULE_NAME_CAPITALIZED}}'
+ *       404:
+ *         description: {{MODULE_NAME_CAPITALIZED}} not found
+{{/INCLUDE_SWAGGER}}
+ */
+router.get('/:id', authenticate, rbac.checkPermission('read', '{{MODULE_NAME}}'), {{MODULE_NAME}}Controller.getById);
+
+/**
+{{#INCLUDE_SWAGGER}}
+ * @swagger
+ * /api/{{MODULE_NAME}}:
+ *   post:
+ *     summary: Create a new {{MODULE_NAME}}
+ *     tags: [{{MODULE_NAME_CAPITALIZED}}]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/{{MODULE_NAME_CAPITALIZED}}'
+ *     responses:
+ *       201:
+ *         description: {{MODULE_NAME_CAPITALIZED}} created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/{{MODULE_NAME_CAPITALIZED}}'
+{{/INCLUDE_SWAGGER}}
+ */
+router.post('/', authenticate, rbac.checkPermission('create', '{{MODULE_NAME}}'), {{MODULE_NAME}}Controller.create);
+
+/**
+{{#INCLUDE_SWAGGER}}
+ * @swagger
+ * /api/{{MODULE_NAME}}/{id}:
+ *   put:
+ *     summary: Update {{MODULE_NAME}} by ID
+ *     tags: [{{MODULE_NAME_CAPITALIZED}}]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/{{MODULE_NAME_CAPITALIZED}}'
+ *     responses:
+ *       200:
+ *         description: {{MODULE_NAME_CAPITALIZED}} updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/{{MODULE_NAME_CAPITALIZED}}'
+ *       404:
+ *         description: {{MODULE_NAME_CAPITALIZED}} not found
+{{/INCLUDE_SWAGGER}}
+ */
+router.put('/:id', authenticate, rbac.checkPermission('update', '{{MODULE_NAME}}'), {{MODULE_NAME}}Controller.update);
+
+/**
+{{#INCLUDE_SWAGGER}}
+ * @swagger
+ * /api/{{MODULE_NAME}}/{id}:
+ *   delete:
+ *     summary: Delete {{MODULE_NAME}} by ID
+ *     tags: [{{MODULE_NAME_CAPITALIZED}}]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: {{MODULE_NAME_CAPITALIZED}} deleted successfully
+ *       404:
+ *         description: {{MODULE_NAME_CAPITALIZED}} not found
+{{/INCLUDE_SWAGGER}}
+ */
+router.delete('/:id', authenticate, rbac.checkPermission('delete', '{{MODULE_NAME}}'), {{MODULE_NAME}}Controller.delete);
+
+export default router;

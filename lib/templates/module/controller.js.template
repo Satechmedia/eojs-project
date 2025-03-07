@@ -1,0 +1,89 @@
+/**
+{{#INCLUDE_SWAGGER}}
+ * @swagger
+ * /api/{{MODULE_NAME}}:
+ *   get:
+ *     summary: Get all {{MODULE_NAME}}s
+ *     tags: [{{MODULE_NAME_CAPITALIZED}}]
+ *     responses:
+ *       200:
+ *         description: List of {{MODULE_NAME}}s
+ *       500:
+ *         description: Server error
+{{/INCLUDE_SWAGGER}}
+ */
+
+import {{MODULE_NAME}}Service from '../services/{{MODULE_NAME}}.service.js';
+import logger from '../config/logger.js';
+
+class {{MODULE_NAME_CAPITALIZED}}Controller {
+  async getAll(req, res, next) {
+    try {
+      logger.info('Fetching all {{MODULE_NAME}}s');
+      const {{MODULE_NAME}}s = await {{MODULE_NAME}}Service.getAll();
+      return res.json({{MODULE_NAME}}s);
+    } catch (error) {
+      logger.error(`Error fetching {{MODULE_NAME}}s: ${error.message}`);
+      next(error);
+    }
+  }
+
+  async getById(req, res, next) {
+    try {
+      const { id } = req.params;
+      logger.info(`Fetching {{MODULE_NAME}} with id: ${id}`);
+      const {{MODULE_NAME}} = await {{MODULE_NAME}}Service.getById(id);
+      
+      if (!{{MODULE_NAME}}) {
+        return res.status(404).json({ message: '{{MODULE_NAME_CAPITALIZED}} not found' });
+      }
+      
+      return res.json({{MODULE_NAME}});
+    } catch (error) {
+      logger.error(`Error fetching {{MODULE_NAME}}: ${error.message}`);
+      next(error);
+    }
+  }
+
+  async create(req, res, next) {
+    try {
+      logger.info('Creating new {{MODULE_NAME}}');
+      const {{MODULE_NAME}} = await {{MODULE_NAME}}Service.create(req.body);
+      return res.status(201).json({{MODULE_NAME}});
+    } catch (error) {
+      logger.error(`Error creating {{MODULE_NAME}}: ${error.message}`);
+      next(error);
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      const { id } = req.params;
+      logger.info(`Updating {{MODULE_NAME}} with id: ${id}`);
+      const {{MODULE_NAME}} = await {{MODULE_NAME}}Service.update(id, req.body);
+      
+      if (!{{MODULE_NAME}}) {
+        return res.status(404).json({ message: '{{MODULE_NAME_CAPITALIZED}} not found' });
+      }
+      
+      return res.json({{MODULE_NAME}});
+    } catch (error) {
+      logger.error(`Error updating {{MODULE_NAME}}: ${error.message}`);
+      next(error);
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+      const { id } = req.params;
+      logger.info(`Deleting {{MODULE_NAME}} with id: ${id}`);
+      await {{MODULE_NAME}}Service.delete(id);
+      return res.status(204).end();
+    } catch (error) {
+      logger.error(`Error deleting {{MODULE_NAME}}: ${error.message}`);
+      next(error);
+    }
+  }
+}
+
+export default new {{MODULE_NAME_CAPITALIZED}}Controller();

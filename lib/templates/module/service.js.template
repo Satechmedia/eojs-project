@@ -1,0 +1,66 @@
+import {{MODULE_NAME_CAPITALIZED}} from '../models/{{MODULE_NAME}}.model.js';
+import mongoose from 'mongoose';
+import logger from '../config/logger.js';
+
+class {{MODULE_NAME_CAPITALIZED}}Service {
+  /**
+   * Get all {{MODULE_NAME}}s
+   * @returns {Promise<Array>} Array of {{MODULE_NAME}} objects
+   */
+  async getAll() {
+    return {{MODULE_NAME_CAPITALIZED}}.find();
+  }
+
+  /**
+   * Get {{MODULE_NAME}} by ID
+   * @param {string} id - {{MODULE_NAME}} ID
+   * @returns {Promise<Object>} {{MODULE_NAME}} object
+   */
+  async getById(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error('Invalid {{MODULE_NAME}} ID');
+    }
+    return {{MODULE_NAME_CAPITALIZED}}.findById(id);
+  }
+
+  /**
+   * Create new {{MODULE_NAME}}
+   * @param {Object} data - {{MODULE_NAME}} data
+   * @returns {Promise<Object>} Created {{MODULE_NAME}} object
+   */
+  async create(data) {
+    const {{MODULE_NAME}} = new {{MODULE_NAME_CAPITALIZED}}(data);
+    return {{MODULE_NAME}}.save();
+  }
+
+  /**
+   * Update {{MODULE_NAME}} by ID
+   * @param {string} id - {{MODULE_NAME}} ID
+   * @param {Object} data - Updated {{MODULE_NAME}} data
+   * @returns {Promise<Object>} Updated {{MODULE_NAME}} object
+   */
+  async update(id, data) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error('Invalid {{MODULE_NAME}} ID');
+    }
+    return {{MODULE_NAME_CAPITALIZED}}.findByIdAndUpdate(
+      id, 
+      data, 
+      { new: true, runValidators: true }
+    );
+  }
+
+  /**
+   * Delete {{MODULE_NAME}} by ID
+   * @param {string} id - {{MODULE_NAME}} ID
+   * @returns {Promise<Object>} Deletion result
+   */
+  async delete(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error('Invalid {{MODULE_NAME}} ID');
+    }
+    return {{MODULE_NAME_CAPITALIZED}}.findByIdAndDelete(id);
+  }
+}
+
+export default new {{MODULE_NAME_CAPITALIZED}}Service();

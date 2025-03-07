@@ -1,0 +1,68 @@
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+
+/**
+{{#INCLUDE_SWAGGER}}
+ * @swagger
+ * components:
+ *   schemas:
+ *     {{MODULE_NAME_CAPITALIZED}}:
+ *       type: object
+ *       required:
+ *         - name
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Auto-generated ID
+ *         name:
+ *           type: string
+ *           description: Name of the {{MODULE_NAME}}
+ *         description:
+ *           type: string
+ *           description: Description of the {{MODULE_NAME}}
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Creation timestamp
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Last update timestamp
+ *       example:
+ *         name: Example {{MODULE_NAME_CAPITALIZED}}
+ *         description: This is an example {{MODULE_NAME}}
+{{/INCLUDE_SWAGGER}}
+ */
+const {{MODULE_NAME_CAPITALIZED}}Schema = new Schema({
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true
+  },
+  description: {
+    type: String,
+    trim: true
+  },
+  active: {
+    type: Boolean,
+    default: true
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+}, { 
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+// Add any methods or virtuals here
+{{MODULE_NAME_CAPITALIZED}}Schema.virtual('nameAndDescription').get(function() {
+  return `${this.name} - ${this.description || 'No description'}`;
+});
+
+// Create and export the model
+const {{MODULE_NAME_CAPITALIZED}} = mongoose.model('{{MODULE_NAME_CAPITALIZED}}', {{MODULE_NAME_CAPITALIZED}}Schema);
+
+export default {{MODULE_NAME_CAPITALIZED}};

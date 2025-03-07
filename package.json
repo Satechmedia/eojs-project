@@ -1,11 +1,11 @@
 {
   "name": "eojs-lab",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Express Opinionated JavaScript Framework",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "eojs-project": "bin/cli.js"
+    "eojs": "bin/cli.js"
   },
   "directories": {
     "lib": "lib"
